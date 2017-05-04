@@ -1,3 +1,9 @@
+package main;
+
+import helper.Helper;
+import model.Equation;
+import model.Operator;
+import model.Substring;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -26,7 +32,7 @@ public class ClearTaxMain {
             String stringEquation = Helper.sanitizeEquation(equationBulder);
 
             //ANSWER1
-            System.out.println("The Equation is: "+stringEquation);
+            System.out.println("The model.Equation is: "+stringEquation);
 
             String lhs = stringEquation.split("=")[0];
             String rhs = stringEquation.split("=")[1];

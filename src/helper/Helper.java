@@ -1,3 +1,9 @@
+package helper;
+
+import model.Equation;
+import model.Operator;
+import model.Substring;
+
 import java.util.HashMap;
 
 /**
