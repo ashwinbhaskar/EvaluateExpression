@@ -10,5 +10,7 @@
     <orderEntry type="library" exported="" name="jackson-core-2.2.0-rc1-sources" level="project" />
     <orderEntry type="library" name="jackson-core-2.2.0-rc1-sources (2)" level="project" />
     <orderEntry type="library" name="jackson-all-1.9.0" level="project" />
+    <orderEntry type="library" name="junit-4.11" level="project" />
+    <orderEntry type="library" name="test-libs" level="project" />
   </component>
 </module>

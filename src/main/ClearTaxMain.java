@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -28,33 +29,47 @@ public class ClearTaxMain {
         try {
             String json = new Scanner(file).useDelimiter("\\Z").next();
             Equation equation = objectMapper.readValue(json, Equation.class);
-            StringBuilder equationBulder = new StringBuilder(getLhs(equation) +" "+ getOp(equation) +" "+ getRhs(equation));
-            String stringEquation = Helper.sanitizeEquation(equationBulder);
-
             //ANSWER1
-            System.out.println("The Equation is: "+stringEquation);
-
-            String lhs = stringEquation.split("=")[0];
-            String rhs = stringEquation.split("=")[1];
-            String sanitizedLhs = Helper.removeWhiteSpaces(lhs);
-            String sanitizedRhs = Helper.removeWhiteSpaces(rhs);
-            StringBuilder lhsBuilder = new StringBuilder(sanitizedLhs);
-            StringBuilder rhsBuilder = new StringBuilder(sanitizedRhs);
-            moveToRhs(lhsBuilder, rhsBuilder);
+            String stringEquation = printEquation(equation);
 
             //ANSWER2
-            String newSanitizedRhs = Helper.sanitzeRhs(rhsBuilder);
-            System.out.println("x = "+newSanitizedRhs);
+            String reorganizedEquation = printReorganizedEquation(stringEquation);
 
             //ANSWER3
-            ScriptEngineManager mgr = new ScriptEngineManager();
-            ScriptEngine engine = mgr.getEngineByName("JavaScript");
-            System.out.println("final solution = "+engine.eval(newSanitizedRhs));
+            solveEquation(reorganizedEquation);
 
 
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static String printEquation(Equation equation) throws IOException{
+        StringBuilder equationBulder = new StringBuilder(getLhs(equation) +" "+ getOp(equation) +" "+ getRhs(equation));//visits the lhs, op and rhs recursively
+        String stringEquation = Helper.sanitizeEquation(equationBulder);
+        System.out.println("The Equation is: "+stringEquation);
+        return stringEquation;
+    }
+
+    public static String printReorganizedEquation(String stringEquation){
+        String[] sides = stringEquation.split("=");
+        String sanitizedLhs = Helper.removeWhiteSpaces(sides[0]);
+        String sanitizedRhs = Helper.removeWhiteSpaces(sides[1]);
+        StringBuilder lhsBuilder = new StringBuilder(sanitizedLhs);
+        StringBuilder rhsBuilder = new StringBuilder(sanitizedRhs);
+        reorganize(lhsBuilder, rhsBuilder);
+        String newSanitizedRhs = Helper.sanitzeRhs(rhsBuilder);
+        String reorganizedEquation ="x = "+newSanitizedRhs;
+        System.out.println(reorganizedEquation);
+        return reorganizedEquation;
+    }
+
+    public static String solveEquation(String reorganizedEquation) throws ScriptException{
+        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngine engine = mgr.getEngineByName("JavaScript");
+        String solution = engine.eval(reorganizedEquation.split("=")[1]).toString();
+        System.out.println("final solution = "+solution);
+        return solution;
     }
 
     //0 remove all white spaces from lhs
@@ -63,7 +78,7 @@ public class ClearTaxMain {
     //3 move the constant to the otherside with opposite op
     //4 free the lhs of the outer most brackets and redundant operators
     //5 start from step1 and repeat until only 'x' is left
-    private static void moveToRhs(StringBuilder lhs, StringBuilder rhs){
+    private static void reorganize(StringBuilder lhs, StringBuilder rhs){
         if(lhs.toString().equals("x")){
             return;
         }
@@ -72,7 +87,7 @@ public class ClearTaxMain {
         Helper.moveConstantToRhs(constant, op, rhs);
         Helper.removeRedundantOperators(lhs, rhs, constant, op);
         Helper.removeOuterMostBracketsIfPresent(lhs);
-        moveToRhs(lhs, rhs);
+        reorganize(lhs, rhs);
 
     }
 
