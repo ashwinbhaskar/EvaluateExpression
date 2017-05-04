@@ -19,7 +19,7 @@ import java.util.*;
  * Created by ashwinxd on 3/5/17.
  */
 public class ClearTaxMain {
-    private static final String filePath = "/home/ashwinxd/Desktop/ClearTax/input1.json";
+    private static final String filePath = "/home/ashwinxd/Desktop/ClearTax/input.json";
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args){
@@ -32,7 +32,7 @@ public class ClearTaxMain {
             String stringEquation = Helper.sanitizeEquation(equationBulder);
 
             //ANSWER1
-            System.out.println("The model.Equation is: "+stringEquation);
+            System.out.println("The Equation is: "+stringEquation);
 
             String lhs = stringEquation.split("=")[0];
             String rhs = stringEquation.split("=")[1];
