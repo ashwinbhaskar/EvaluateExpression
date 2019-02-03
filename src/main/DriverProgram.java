@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * Created by ashwinxd on 3/5/17.
  */
-public class ClearTaxMain {
+public class DriverProgram {
     private static final String filePath = "/home/ashwinxd/Desktop/ClearTax/input.json";
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

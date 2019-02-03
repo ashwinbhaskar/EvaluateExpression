@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Created by ashwinxd on 4/5/17.
  */
-public class ClearTaxMainTest {
+public class DriverProgramTest {
 
     @Test
     public void printEquation() throws Exception {
@@ -22,7 +22,7 @@ public class ClearTaxMainTest {
         String json = new Scanner(file).useDelimiter("\\Z").next();
         Equation equation = objectMapper.readValue(json, Equation.class);
         String expectedAnswer = "1+(x*10)=21";
-        assertTrue(ClearTaxMain.printEquation(equation).replace(" ","").equals(expectedAnswer));
+        assertTrue(DriverProgram.printEquation(equation).replace(" ","").equals(expectedAnswer));
     }
 
     @Test
@@ -32,8 +32,8 @@ public class ClearTaxMainTest {
         File file = new File(filePath);
         String json = new Scanner(file).useDelimiter("\\Z").next();
         Equation equation = objectMapper.readValue(json, Equation.class);
-        String strEquation = ClearTaxMain.printEquation(equation);
-        String reorganizedEquation = ClearTaxMain.printReorganizedEquation(strEquation);
+        String strEquation = DriverProgram.printEquation(equation);
+        String reorganizedEquation = DriverProgram.printReorganizedEquation(strEquation);
         assertTrue(reorganizedEquation.replace(" ","").equals("x=(21-1)/10"));
     }
 
@@ -44,9 +44,9 @@ public class ClearTaxMainTest {
         File file = new File(filePath);
         String json = new Scanner(file).useDelimiter("\\Z").next();
         Equation equation = objectMapper.readValue(json, Equation.class);
-        String strEquation = ClearTaxMain.printEquation(equation);
-        String reorganizedEquation = ClearTaxMain.printReorganizedEquation(strEquation);
-        assertTrue(ClearTaxMain.solveEquation(reorganizedEquation).replace(" ","").equals("2"));
+        String strEquation = DriverProgram.printEquation(equation);
+        String reorganizedEquation = DriverProgram.printReorganizedEquation(strEquation);
+        assertTrue(DriverProgram.solveEquation(reorganizedEquation).replace(" ","").equals("2"));
     }
 
 }
